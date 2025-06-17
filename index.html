@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify Widget</title>
+  </head>
+  <body>
+    <div>
+      <p id="1">Current song:</p>
+      <p id="2">Artist:</p>
+      <img id="3" width="300" />
+      <p id="4"></p>
+    </div>
+    <script>
+      const song = document.getElementById("1");
+      const artist = document.getElementById("2");
+      const pic = document.getElementById("3");
+      const apiresult = document.getElementById("4");
+      const api = "http://localhost:8000/api";
+
+      async function retrieveData() {
+        try {
+          const res = await fetch(api);
+          const data = await res.json();
+          song.textContent = "Current song: " + data.name;
+          artist.textContent = "Artist: " + data.artist;
+          pic.src = data.pic;
+          apiresult.textContent = "";
+        } catch (error) {
+          song.textContent = "";
+          artist.textContent = "";
+          pic.src = "";
+          apiresult.textContent = "API not available";
+        }
+      }
+      setInterval(retrieveData, 1000);
+    </script>
+  </body>
+</html>
